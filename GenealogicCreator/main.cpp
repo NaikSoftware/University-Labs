@@ -41,8 +41,8 @@ int main(int argc, char** argv) {
     cbreak(); //buff off
     keypad(stdscr, TRUE);
     noecho();
-    int w = getmaxx(stdscr), h = getmaxy(stdscr);
     start_color();
+    int w = getmaxx(stdscr), h = getmaxy(stdscr);
     init_pair(1, COLOR_BLACK, COLOR_CYAN);
     init_pair(2, COLOR_BLUE, COLOR_WHITE);
     init_pair(3, COLOR_BLACK, COLOR_GREEN);
@@ -57,27 +57,34 @@ int main(int argc, char** argv) {
     // Main cycle
     int key, type = WAIT;
 
-    FIELD *field[3];
-    field[0] = new_field(4, 10, 4, 18, 0, 0);
-    field[1] = NULL;
-    set_field_back(field[0], COLOR_PAIR(2));
-    FORM *form = new_form(field);
-    int windH = 10, windW = 10;
-    scale_form(form, &windH, &windW);
-    //post_form(form);
-    refresh();
     WINDOW *wind;
-    while((key = getch()) != KEY_ESC) {
-        mvprintw(10, 10, "Key pressed %d", key);
+    FIELD *field[3];
+    field[0] = new_field(5, 15, 3, 5, 0, 0);
+    field[1] = NULL;
+
+    set_field_back(field[0], COLOR_PAIR(2));
+    field_opts_off(field[0], O_AUTOSKIP);
+
+    FORM *form = new_form(field);
+    int windH, windW;
+    scale_form(form, &windH, &windW);
+
+    wind = new_wnd(w/4, h/4, w/2 - w/8, h/2 - h/8, 3);
+    keypad(wind, TRUE);
+
+    set_form_win(form, wind);
+    set_form_sub(form, derwin(wind, windH, windW, 2, 2));
+
+    mvwprintw(wind, 2, getmaxx(wind)/2 - strlen(INPUT_DATA)/3, INPUT_DATA);
+
+    post_form(form);
+    wrefresh(wind);
+
+    while((key = wgetch(wind)) != KEY_ESC) {
+        //mvprintw(10, 10, "Key pressed %d", key);
         if (key == KEY_ENTER) {
             if (type == WAIT) { // open new window and input
-                wind = new_wnd(w/4, h/4, w/2 - w/8, h/2 - h/8, 3);
-                mvwprintw(wind, 2, getmaxx(wind)/2 - strlen(INPUT_DATA)/3, INPUT_DATA);
-                //set_form_win(form, wind);
-                //set_form_sub(form, derwin(wind, 3, 8, 2, 2));
-                post_form(form);
-                refresh();
-                wrefresh(wind);
+
             }
         }
         if (key == 263) form_driver(form, REQ_DEL_PREV);
@@ -95,4 +102,3 @@ WINDOW *new_wnd(int w, int h, int toX, int toY, int color) {
     wrefresh(wind);
     return wind;
 }
-
