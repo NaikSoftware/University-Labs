@@ -23,17 +23,20 @@ const char *PROGRAM = "Генеалогічне дерево 1.0";
 const char *HELP = "Стрілки - перемикання між вузлами, ENTER - додати новий, DELETE - видалити, Ctrl+Стрілки - переміщення, ESC - вихід";
 const char *INPUT_DATA = "Введіть ім’я і т.п.";
 const int WAIT = 0, ADD = 1, REMOVE = 2;
-const int NODE_W = 15, NODE_H = 2;
+const int NODE_W = 17, NODE_H = 2;
 
-struct NodeStruct {
-    struct NodeStruct *parents;
-    struct NodeStruct *childrens;
-    int chCount;
-    chtype *name;
-};
 typedef struct NodeStruct Node;
+struct NodeStruct {
+    Node *parent;
+    Node *childrens;
+    int chCount;
+    char *name;
+    int x, y;
+    WINDOW *w;
+};
 
 WINDOW *new_wnd(int, int, int, int, int);
+void drawNodes(Node*, Node*, WINDOW*);
 
 int main(int argc, char** argv) {
     // Init
@@ -56,11 +59,11 @@ int main(int argc, char** argv) {
     mvprintw(1, w / 2 - strlen(HELP) / 3, HELP);
 
     WINDOW *winMain = new_wnd(w, h-2, 0, 2, 1); // отступ для заголовка
-    WINDOW *winAdd = new_wnd(w/4, h/4, w/2 - w/8, h/2 - h/8, 3);
+    WINDOW *winAdd = new_wnd(w/3, h/4, w/2 - w/8, h/2 - h/8, 3);
     keypad(winAdd, TRUE);
 
     FIELD *field[3];
-    field[0] = new_field(NODE_H, NODE_W, 3, 15, 0, 0);// h, w, y, x
+    field[0] = new_field(NODE_H, NODE_W, 1, w/6-NODE_W/2, 0, 0);// h, w, y, x
     field[1] = NULL;
     set_field_back(field[0], COLOR_PAIR(2));
 
@@ -69,9 +72,9 @@ int main(int argc, char** argv) {
     scale_form(form, &windH, &windW);
 
     set_form_win(form, winAdd);
-    set_form_sub(form, derwin(winAdd, windH, windW, 3, 1));
+    set_form_sub(form, derwin(winAdd, windH, windW, 2, 1));
 
-    mvwprintw(winAdd, 2, getmaxx(winAdd)/2 - strlen(INPUT_DATA)/3, INPUT_DATA);
+    mvwprintw(winAdd, 1, getmaxx(winAdd)/2 - strlen(INPUT_DATA)/3, INPUT_DATA);
 
     post_form(form);
 
@@ -84,6 +87,7 @@ int main(int argc, char** argv) {
     doupdate();
     topPan = panels[1];
     // Main cycle
+    Node *curr = NULL, *root = NULL;
     int key, type = WAIT;
     while(1) {
         //mvprintw(10, 10, "Key pressed %d", key);
@@ -97,8 +101,22 @@ int main(int argc, char** argv) {
         } else if (type == ADD) {
             if (key == KEY_ENTER) {
                 form_driver(form, REQ_END_LINE);
-                mvwprintw(winMain, 5, 5, "Input: ");
-                wprintw(winMain, field_buffer(field[0], 0));
+                Node *n = (Node*)calloc(1, sizeof(Node));
+                n->x = w/2, n->y = h/2;
+                if (root) {
+                    n->parent = curr;
+                    // Also add as child for curr
+                    //curr->childrens = (Node*)realloc...
+                    curr->chCount++;
+                    // Change current to new
+                    curr = n;
+                } else {
+                    root = curr = n;
+                    root->y = 1;
+                }
+                curr->name = field_buffer(field[0], 0);
+                drawNodes(root, curr, winMain);
+                //wprintw(winMain, field_buffer(field[0], 0));
                 set_field_buffer(field[0], 0, "");
                 topPan = (PANEL*) panel_userptr(topPan);
                 top_panel(topPan);
@@ -115,6 +133,13 @@ int main(int argc, char** argv) {
     }
     endwin();
     return (EXIT_SUCCESS);
+}
+
+void drawNodes(Node* node, Node *focused, WINDOW *wnd) {
+    if (!node) return;
+    for (int i = 0; i < node->chCount; i++) drawNodes(&node->childrens[i], focused, wnd);
+    if (node == focused) wbkgdset(wnd, COLOR_PAIR(3));
+    else wbkgdset(wnd, COLOR_PAIR(1));
 }
 
 WINDOW *new_wnd(int w, int h, int toX, int toY, int color) {
