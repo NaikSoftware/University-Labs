@@ -13,6 +13,7 @@
 #include <form.h>
 #include <panel.h>
 #include <locale>
+#include <vector>
 
 #define KEY_ESC 27
 #define KEY_ENTER 10
@@ -28,15 +29,15 @@ const int NODE_W = 17, NODE_H = 2;
 typedef struct NodeStruct Node;
 struct NodeStruct {
     Node *parent;
-    Node *childrens;
-    int chCount;
+    vector<Node*> childrens;
     char *name;
-    int x, y;
     WINDOW *w;
 };
 
 WINDOW *new_wnd(int, int, int, int, int);
-void drawNodes(Node*, Node*, WINDOW*);
+WINDOW *new_node_wnd(WINDOW*);
+void drawNodes(Node*, Node*);
+
 
 int main(int argc, char** argv) {
     // Init
@@ -62,7 +63,7 @@ int main(int argc, char** argv) {
     WINDOW *winAdd = new_wnd(w/3, h/4, w/2 - w/8, h/2 - h/8, 3);
     keypad(winAdd, TRUE);
 
-    FIELD *field[3];
+    FIELD *field[2];
     field[0] = new_field(NODE_H, NODE_W, 1, w/6-NODE_W/2, 0, 0);// h, w, y, x
     field[1] = NULL;
     set_field_back(field[0], COLOR_PAIR(2));
@@ -88,7 +89,7 @@ int main(int argc, char** argv) {
     topPan = panels[1];
     // Main cycle
     Node *curr = NULL, *root = NULL;
-    int key, type = WAIT;
+    int key, type = WAIT, x, y;
     while(1) {
         //mvprintw(10, 10, "Key pressed %d", key);
         key = wgetch(winAdd);
@@ -102,21 +103,22 @@ int main(int argc, char** argv) {
             if (key == KEY_ENTER) {
                 form_driver(form, REQ_END_LINE);
                 Node *n = (Node*)calloc(1, sizeof(Node));
-                n->x = w/2, n->y = h/2;
+                char *buff = field_buffer(field[0], 0);
+                n->name = (char*)calloc(strlen(buff), sizeof(char));
+                copy(buff, buff + strlen(buff), n->name);
+                n->w = new_node_wnd(winMain);
                 if (root) {
                     n->parent = curr;
-                    // Also add as child for curr
-                    //curr->childrens = (Node*)realloc...
-                    curr->chCount++;
-                    // Change current to new
-                    curr = n;
+                    getbegyx(curr->w, y, x);
+                    mvderwin(n->w, y + NODE_H + 2, x + curr->childrens.size() * NODE_W + 5);
+                    curr->childrens.push_back(n);
                 } else {
-                    root = curr = n;
-                    root->y = 1;
+                    mvderwin(n->w, 1, w/2);
+                    root = n;
                 }
-                curr->name = field_buffer(field[0], 0);
-                drawNodes(root, curr, winMain);
-                //wprintw(winMain, field_buffer(field[0], 0));
+                curr = n;
+                box(winMain, 0, 0);
+                drawNodes(root, curr);
                 set_field_buffer(field[0], 0, "");
                 topPan = (PANEL*) panel_userptr(topPan);
                 top_panel(topPan);
@@ -135,11 +137,21 @@ int main(int argc, char** argv) {
     return (EXIT_SUCCESS);
 }
 
-void drawNodes(Node* node, Node *focused, WINDOW *wnd) {
+void drawNodes(Node *node, Node *focused) {
     if (!node) return;
-    for (int i = 0; i < node->chCount; i++) drawNodes(&node->childrens[i], focused, wnd);
+    for (int i = 0; i < node->childrens.size(); i++) drawNodes(node->childrens[i], focused);
+    WINDOW *wnd = node->w;
     if (node == focused) wbkgdset(wnd, COLOR_PAIR(3));
     else wbkgdset(wnd, COLOR_PAIR(1));
+    wclear(wnd);
+    wmove(wnd, 1, 1);// move cursor
+    wprintw(wnd, node->name);
+    box(wnd, 0, 0);
+}
+
+WINDOW* new_node_wnd(WINDOW *parent) {
+    WINDOW* w = derwin(parent, NODE_H + 2, NODE_W + 2, 0, 0);
+    return w;
 }
 
 WINDOW *new_wnd(int w, int h, int toX, int toY, int color) {
