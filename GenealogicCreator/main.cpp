@@ -102,20 +102,16 @@ int main(int argc, char** argv) {
                 type = ADD;
             } else if (key == KEY_UP && curr != root) {
                 curr = curr->parent;
-                box(winMain, 0, 0);
-                drawNodes(root, curr);
             } else if (key == KEY_DOWN && !curr->childrens.empty()) {
                 curr = curr->childrens[0];
-                box(winMain, 0, 0);
-                drawNodes(root, curr);
             } else if ((key == KEY_LEFT || key == KEY_RIGHT) && curr != root) {
                 vector<Node*> v = curr->parent->childrens;
-                vector<Node*>::iterator it = std::find_if(v.begin(), v.end(), [curr](Node* n){ return n == curr; });
-                int idx = distance(v.begin(), it);
+                auto iter = find_if(v.begin(), v.end(), [curr](Node* n) {
+                    return n == curr;
+                });
+                int idx = distance(v.begin(), iter);
                 if (idx > 0 && key == KEY_LEFT) curr = curr->parent->childrens[idx - 1];
                 else if (idx < (v.size() - 1) && key == KEY_RIGHT) curr = curr->parent->childrens[idx + 1];
-                box(winMain, 0, 0);
-                drawNodes(root, curr);
             } else if (key == KEY_ESC) break;
         } else if (type == ADD) {
             if (key == KEY_ENTER) {
@@ -135,8 +131,6 @@ int main(int argc, char** argv) {
                     root = n;
                 }
                 curr = n;
-                box(winMain, 0, 0);
-                drawNodes(root, curr);
                 set_field_buffer(field[0], 0, "");
                 topPan = (PANEL*) panel_userptr(topPan);
                 top_panel(topPan);
@@ -148,6 +142,8 @@ int main(int argc, char** argv) {
             } else if (key == 263) form_driver(form, REQ_DEL_PREV);//backspace pressed
             form_driver(form, key);
         }
+        box(winMain, 0, 0);
+        drawNodes(root, curr);
         update_panels();
         doupdate();
     }
