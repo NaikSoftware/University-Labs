@@ -12,8 +12,9 @@
 #include <curses.h>
 #include <form.h>
 #include <panel.h>
-#include <locale>
+#include <clocale>
 #include <vector>
+#include <cwchar>
 #include <iterator>
 #include <algorithm>
 
@@ -37,9 +38,7 @@ struct NodeStruct {
 };
 
 WINDOW *new_wnd(int, int, int, int, int);
-WINDOW *new_node_wnd(WINDOW*);
 void drawNodes(Node*, Node*);
-
 
 int main(int argc, char** argv) {
     // Init
@@ -109,7 +108,7 @@ int main(int argc, char** argv) {
                 auto iter = find_if(v.begin(), v.end(), [curr](Node* n) {
                     return n == curr;
                 });
-                int idx = distance(v.begin(), iter);
+                size_t idx = distance(v.begin(), iter);
                 if (idx > 0 && key == KEY_LEFT) curr = curr->parent->childrens[idx - 1];
                 else if (idx < (v.size() - 1) && key == KEY_RIGHT) curr = curr->parent->childrens[idx + 1];
             } else if (key == KEY_ESC) break;
@@ -120,7 +119,7 @@ int main(int argc, char** argv) {
                 char *buff = field_buffer(field[0], 0);
                 n->name = (char*)calloc(strlen(buff), sizeof(char));
                 copy(buff, buff + strlen(buff), n->name);
-                n->w = new_node_wnd(winMain);
+                n->w = derwin(winMain, NODE_H + 2, NODE_W + 2, 0, 0);
                 if (root) {
                     n->parent = curr;
                     getparyx(curr->w, y, x);
@@ -153,19 +152,26 @@ int main(int argc, char** argv) {
 
 void drawNodes(Node *node, Node *focused) {
     if (!node) return;
-    for (int i = 0; i < node->childrens.size(); i++) drawNodes(node->childrens[i], focused);
+    for (size_t i = 0; i < node->childrens.size(); i++) drawNodes(node->childrens[i], focused);
     WINDOW *wnd = node->w;
     if (node == focused) wbkgdset(wnd, COLOR_PAIR(3));
     else wbkgdset(wnd, COLOR_PAIR(1));
     wclear(wnd);
-    wmove(wnd, 1, 1);// move cursor
-    wprintw(wnd, node->name);
+    mbstate_t state = mbstate_t();//locale state
+    const char *ptr = node->name;
+    const char *end = ptr + strlen(ptr);
+    int len, size = 0, y = 1, lenbin = 0;
+    wchar_t wc;
+    while((len = mbrtowc(&wc, ptr, end-ptr, &state)) > 0) {
+        ptr += len;
+        lenbin += len;
+        size++;
+        if (size == NODE_W) {
+            mvwaddnstr(wnd, y, 1, ptr - lenbin, lenbin);
+            y++, lenbin = 0, size = 0;
+        }
+    }
     box(wnd, 0, 0);
-}
-
-WINDOW* new_node_wnd(WINDOW *parent) {
-    WINDOW* w = derwin(parent, NODE_H + 2, NODE_W + 2, 0, 0);
-    return w;
 }
 
 WINDOW *new_wnd(int w, int h, int toX, int toY, int color) {
