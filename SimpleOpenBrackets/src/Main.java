@@ -7,22 +7,37 @@ import static java.lang.System.out;
 public class Main {
 
 	public static final boolean d = false;
+	private static boolean printAsOO; // Output for OpenOffice Math
 
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
 		out.println("Please input expression for open");
 		String expr = scanner.next();
+		out.println("Output convert in OpenOffice Math format? (y/n):");
+		printAsOO = scanner.next("y|n").equals("y") ? true : false;
 		scanner.close();
-		out.println("INPPUT EXPR = " + expr);
+		if (printAsOO) {
+			out.println("alignl КНФ `=` " + convertToOpenOfficeMath(expr));
+		} else {
+			out.println("INPUT EXPR = " + expr);
+		}
 
 		String result = expr, last_result = expr;
 		while (!(result = openBrackets(result)).equals(last_result)) {
 			out.println();
-			out.println(" = " + result);
+			if (printAsOO) {
+				out.println(" newline alignl `=` " + convertToOpenOfficeMath(result));
+			} else {
+				out.println(" = " + result);
+			}
 			last_result = result;
 		}
+		if (printAsOO) {
+			out.println(" newline alignl СкНФ `=` " + convertToOpenOfficeMath(result));
+		} else {
 		out.println();
 		out.println("Result:" + result.replace("+", " + "));
+		}
 	}
 
 	public static String openBrackets(String expr) {
@@ -63,7 +78,8 @@ public class Main {
 					ArrayList<String> a_vars = splitImpl(impl);
 					ArrayList<String> b_vars = splitImpl(impl2);
 					if (b_vars.size() - a_vars.size() == 1) {
-						if (d) out.println("\tdetected absorb");
+						if (d)
+							out.println("\tdetected absorb");
 						absorbed = impl2;
 						absorb = true;
 						break;
@@ -73,7 +89,8 @@ public class Main {
 					break;
 			}
 			if (absorb) {
-				if (d) out.println("remove " + absorbed);
+				if (d)
+					out.println("remove " + absorbed);
 				cleared_impl.remove(absorbed);
 			}
 		}
@@ -170,7 +187,8 @@ public class Main {
 
 	/**
 	 * 
-	 * @param impl импликанта
+	 * @param impl
+	 *            импликанта
 	 * @return true если импликанта самосокращается (например 1!1, 12!1)
 	 */
 	private static boolean reduced(String impl) {
@@ -202,6 +220,15 @@ public class Main {
 			}
 		}
 		return vars;
+	}
+
+	private static String convertToOpenOfficeMath(String expr) {
+		for (int i = 1; i < 10; i++) {
+			expr = expr.replace(String.valueOf(i), " x_{" + i + "} ");
+		}
+		expr = expr.replace("+", " or ");
+		expr = expr.replace("!", " overline ");
+		return expr;
 	}
 
 }
