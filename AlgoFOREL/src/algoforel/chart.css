@@ -7,13 +7,13 @@
     -fx-background-color: white;
 }
 
-.chart-symbol {
+.chart-symbol { /* solid circle */
     -fx-background-color: radial-gradient(center 50% 50%, radius 60%, reflect, #9b7e18, #ded4b0);
     -fx-background-radius: 3px;
     -fx-padding: 3px;
 }
 
-.default-color1.chart-symbol {
+.default-color1.chart-symbol { /* solid square */
     -fx-background-color: transparent;
     -fx-background-radius: 100px;
     -fx-padding: 100px;

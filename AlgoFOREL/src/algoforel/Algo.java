@@ -59,7 +59,10 @@ public class Algo {
             }
             Data cl = new Data(center.getXValue(), center.getYValue(), radius);
             clusters.add(cl);
+            System.out.println("Neighbours: " + neighbours.size());
+            System.out.println("Center point: " + center.getXValue() + ", " + center.getYValue());
             for (Data p : neighbours) {
+                System.out.println("neighbour: " + p.getXValue() + ", " + p.getYValue());
                 points.remove(p);
             }
         }
@@ -72,7 +75,6 @@ public class Algo {
 
     private ArrayList<Data<Double, Double>> getNeighbourPoints(Data<Double, Double> centerPoint) {
         ArrayList<Data<Double, Double>> neighbours = new ArrayList<>();
-        neighbours.add(centerPoint);
         for (Data<Double, Double> p : points) {
             if (Math.hypot(p.getXValue() - centerPoint.getXValue(),
                     p.getYValue() - centerPoint.getYValue()) <= radius) {

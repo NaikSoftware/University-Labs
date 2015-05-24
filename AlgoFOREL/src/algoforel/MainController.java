@@ -89,11 +89,11 @@ public class MainController implements Initializable {
 
         double cluster_size = 25;
         try {
-            cluster_size = Double.parseDouble(clusterSize.getText().replace(",", ".")) / 2d;
+            cluster_size = Double.parseDouble(clusterSize.getText().replace(",", "."));
         } catch (NumberFormatException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        ArrayList<XYChart.Data<Double, Double>> clusters = algo.getClusters(cluster_size);
+        ArrayList<XYChart.Data<Double, Double>> clusters = algo.getClusters(cluster_size / 2d);
         XYChart.Series series2 = new XYChart.Series();
         series2.setName("Clusters");
         for (XYChart.Data cl : clusters) {
