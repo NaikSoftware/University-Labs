@@ -7,17 +7,11 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.chart.Axis;
 import javafx.scene.chart.BubbleChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -78,9 +72,8 @@ public class MainController implements Initializable {
         series1.setName("2D Points");
         for (XYChart.Data p : points) {
             series1.getData().add(p);
-            Node node = p.getNode();
             Tooltip tooltip = new Tooltip('(' + p.getXValue().toString() + " ; " + p.getYValue().toString() + ')');
-            Tooltip.install(node, tooltip);
+            Tooltip.install(p.getNode(), tooltip);
         }
         bubbleChart.getData().add(series1);
 
@@ -93,15 +86,14 @@ public class MainController implements Initializable {
         ArrayList<XYChart.Data<Double, Double>> clusters = algo.getClusters(cluster_size / 2d);
         XYChart.Series series2 = new XYChart.Series();
         series2.setName("Clusters");
-        StringBuilder sb = new StringBuilder("Clusters:\n--------\n\n");
+        StringBuilder sb = new StringBuilder("Clusters:\n-------\n\n");
         for (XYChart.Data cl : clusters) {
             series2.getData().add(cl);
             sb.append("Cluster ").append(cl.getXValue()).append(", ")
                     .append(cl.getYValue()).append("\n");
-            Node node = cl.getNode();
             Tooltip tooltip = new Tooltip("Cluster "
                     + '(' + cl.getXValue().toString() + " ; " + cl.getYValue().toString() + ')');
-            Tooltip.install(node, tooltip);
+            Tooltip.install(cl.getNode(), tooltip);
         }
         bubbleChart.getData().add(series2);
         textAreaResult.setText(sb.toString());
