@@ -93,7 +93,7 @@ public class MainController implements Initializable {
         ArrayList<XYChart.Data<Double, Double>> clusters = algo.getClusters(cluster_size / 2d);
         XYChart.Series series2 = new XYChart.Series();
         series2.setName("Clusters");
-        StringBuilder sb = new StringBuilder("Clusters:\n-------\n\n");
+        StringBuilder sb = new StringBuilder("Clusters:\n--------\n\n");
         for (XYChart.Data cl : clusters) {
             series2.getData().add(cl);
             sb.append("Cluster ").append(cl.getXValue()).append(", ")
