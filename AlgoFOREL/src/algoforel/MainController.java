@@ -56,10 +56,10 @@ public class MainController implements Initializable {
     @FXML
     private void onOpenData(ActionEvent event) {
         FileChooser chooser = new FileChooser();
-        chooser.setTitle("Select text file with x, y lines");
+        chooser.setTitle("Select text file with x y lines");
         chooser.setInitialDirectory(new File(System.getProperty("user.home")));
         File file = chooser.showOpenDialog(((Node) event.getTarget()).getScene().getWindow());
-        if (file != null && file.exists()) {
+        if (file != null) {
             labelFile.setText(file.getAbsolutePath());
         }
     }
@@ -78,14 +78,11 @@ public class MainController implements Initializable {
         series1.setName("2D Points");
         for (XYChart.Data p : points) {
             series1.getData().add(p);
-        }
-        bubbleChart.getData().add(series1);
-        ObservableList<XYChart.Data> dataList = series1.getData();
-        for (XYChart.Data data : dataList) {
-            Node node = data.getNode();
-            Tooltip tooltip = new Tooltip('(' + data.getXValue().toString() + " ; " + data.getYValue().toString() + ')');
+            Node node = p.getNode();
+            Tooltip tooltip = new Tooltip('(' + p.getXValue().toString() + " ; " + p.getYValue().toString() + ')');
             Tooltip.install(node, tooltip);
         }
+        bubbleChart.getData().add(series1);
 
         double cluster_size = 25;
         try {
@@ -96,20 +93,17 @@ public class MainController implements Initializable {
         ArrayList<XYChart.Data<Double, Double>> clusters = algo.getClusters(cluster_size / 2d);
         XYChart.Series series2 = new XYChart.Series();
         series2.setName("Clusters");
+        StringBuilder sb = new StringBuilder("Clusters:\n-------\n\n");
         for (XYChart.Data cl : clusters) {
             series2.getData().add(cl);
-        }
-        bubbleChart.getData().add(series2);
-        StringBuilder sb = new StringBuilder("Clusters:\n-------\n\n");
-        dataList = series2.getData();
-        for (XYChart.Data data : dataList) {
-            sb.append("Cluster ").append(data.getXValue()).append(", ")
-                    .append(data.getYValue()).append("\n");
-            Node node = data.getNode();
+            sb.append("Cluster ").append(cl.getXValue()).append(", ")
+                    .append(cl.getYValue()).append("\n");
+            Node node = cl.getNode();
             Tooltip tooltip = new Tooltip("Cluster "
-                    + '(' + data.getXValue().toString() + " ; " + data.getYValue().toString() + ')');
+                    + '(' + cl.getXValue().toString() + " ; " + cl.getYValue().toString() + ')');
             Tooltip.install(node, tooltip);
         }
+        bubbleChart.getData().add(series2);
         textAreaResult.setText(sb.toString());
     }
 
