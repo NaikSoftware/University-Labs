@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Random;
 import javafx.scene.chart.XYChart.Data;
 
@@ -15,7 +14,6 @@ import javafx.scene.chart.XYChart.Data;
  */
 public class Algo {
 
-    private double minX, minY, maxX, maxY;
     private final ArrayList<Data<Double, Double>> points = new ArrayList<>();
     private double radius;
 
@@ -27,16 +25,6 @@ public class Algo {
             String[] coords = line.split("\\s+");
             x = Double.parseDouble(coords[0]);
             y = Double.parseDouble(coords[1]);
-            if (x < minX) {
-                minX = x;
-            } else if (x > maxX) {
-                maxX = x;
-            }
-            if (y < minY) {
-                minY = y;
-            } else if (x > maxY) {
-                maxY = y;
-            }
             points.add(new Data(x, y));
         }
         return points;
@@ -105,7 +93,7 @@ public class Algo {
     }
 
     private static Iterable<String> readLines(BufferedReader reader) throws IOException {
-        LinkedList<String> arr = new LinkedList<>();
+        ArrayList<String> arr = new ArrayList<>();
         String line;
         while ((line = reader.readLine()) != null) {
             line = line.trim();
