@@ -1,0 +1,26 @@
+/* 
+    Created on : 22 трав. 2015, 19:30:08
+    Author     : Naik
+*/
+
+.plot-content {
+    -fx-background-color: white;
+}
+
+.chart-symbol {
+    -fx-background-color: radial-gradient(center 50% 50%, radius 60%, reflect, #9b7e18, #ded4b0);
+    -fx-background-radius: 3px;
+    -fx-padding: 3px;
+}
+
+.default-color1.chart-symbol {
+    -fx-background-color: transparent;
+    -fx-background-radius: 100px;
+    -fx-padding: 100px;
+    -fx-background-insets: 0, 2;
+    -fx-scale-shape: true;
+    -fx-fill: transparent;
+    -fx-border-width: 1px;
+    -fx-border-color: black;
+    -fx-border-radius: 100px;
+}
