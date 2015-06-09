@@ -65,6 +65,8 @@ int main()
     cout << endl << "Коефіцієнти нового полінома:" << endl;
     for (int i = 0; i < resultCoefs.size(); i++) cout << ' ' << resultCoefs.at(i);
     cout << endl << endl;
+    delete a;
+    delete b;
     return 0;
 }
 
