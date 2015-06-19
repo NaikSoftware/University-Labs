@@ -16,6 +16,8 @@ int main()
     int **matrix = get(columns, rows);
     print(matrix, rows, columns);
     selection_sort_columns(matrix, rows, columns);
+    cout << "Відсортовано" << endl;
+    print(matrix, rows, columns);
     for (int i = 0; i < rows; i++) delete [] matrix[i];
     delete matrix;
     return 0;
@@ -55,17 +57,19 @@ void selection_sort_columns(int** matrix, int rows, int columns) {
     for (int i = 0; i < columns - 1; i++) {
         int min_idx = i;
         for (int j = i + 1; j < columns; j++) {
-            if (matrix[j] < matrix[min_idx]) {
+            if (row_mult(matrix, rows, j) < row_mult(matrix, rows, min_idx)) {
                 min_idx = j;
             }
         }
 
         if (min_idx != i) {
-            swap_columns(array[i], array[min_idx]);
+            swap_columns(matrix, rows, i, min_idx);
         }
     }
 }
 
 void swap_columns(int** matrix, int rows, int column_1, int column_2) {
+    for (int i = 0; i < rows; i++) {
+        swap(matrix[i][column_1], matrix[i][column_2]);
+    }
 }
-
