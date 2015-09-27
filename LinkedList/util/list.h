@@ -18,10 +18,7 @@ public:
     List() {
     }
 
-    virtual shared_ptr<List<T>> clone() const = 0;
     virtual size_t getSize() = 0;
-    virtual void set(T *t, int i) = 0;
-    virtual T* get(int i) = 0;
     virtual void append(const T& t, int position) = 0;
 
     friend List<T> &operator << (List<T> &list, const T& t) {
@@ -54,6 +51,10 @@ public:
     }
 
 protected:
+
+    virtual shared_ptr<List<T>> clone() const = 0;
+    virtual void set(T *t, int i) = 0;
+    virtual T* get(int i) = 0;
 
     void pushAll(List<T> &list) {
         int start = getSize();
