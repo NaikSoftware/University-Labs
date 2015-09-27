@@ -34,7 +34,7 @@ public:
 
     LinkedList(initializer_list<T> list) {
         int position = 0;
-        for (auto i = list.begin(); i != list.end(); i++) insert(const_cast<T*>(&*i), position++);
+        for (auto i = list.begin(); i != list.end(); i++) set(const_cast<T*>(&*i), position++);
     }
 
     LinkedList(): head(0), size(0) {
@@ -57,7 +57,7 @@ public:
 
     void append(const T& t, int position) {
         Item *item = getItem(position);
-        if (!item) insert(const_cast<T*>(&t), position);
+        if (!item) set(const_cast<T*>(&t), position);
         else item->next = new Item(const_cast<T&>(t), position, item->next);
     }
 
@@ -77,7 +77,7 @@ private:
         return item? &item->val : nullptr;
     }
 
-    void insert(T *t, int n) {
+    void set(T *t, int n) {
         Item *curr = head, *prev = 0;
         while (curr && curr->position < n) {
             prev = curr;

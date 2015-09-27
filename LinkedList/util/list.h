@@ -20,12 +20,12 @@ public:
 
     virtual shared_ptr<List<T>> clone() const = 0;
     virtual size_t getSize() = 0;
-    virtual void insert(T *t, int i) = 0;
-    virtual void append(const T& t, int position) = 0;
+    virtual void set(T *t, int i) = 0;
     virtual T* get(int i) = 0;
+    virtual void append(const T& t, int position) = 0;
 
     friend List<T> &operator << (List<T> &list, const T& t) {
-        list.insert(const_cast<T*>(&t), list.getSize());
+        list.set(const_cast<T*>(&t), list.getSize());
         return list;
     }
 
@@ -59,7 +59,7 @@ protected:
         int start = getSize();
         for (int i = 0; i < list.getSize(); i++) {
             T *t = list.get(i);
-            if (t) insert(list.get(i), start + i);
+            if (t) set(list.get(i), start + i);
         }
     }
 };

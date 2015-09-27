@@ -8,10 +8,10 @@ using namespace std;
 
 int main() {
     List<char> *list = new LinkedList<char>({ 'a', 'b', 'c' });
-    cout << "Init list: " << *list << endl << endl;
+    cout << "Init list: " << *list EOL;
 
     (*list) << 'A' << 'Z' << 'W';
-    cout << "Insert in end: " << *list << endl << endl;
+    cout << "Insert in end: " << *list EOL;
     cout << "Element 99 is null? " << (&(*list)[99] == nullptr ? "yes" : "no") EOL;
 
     (*list)[0] = 'M';
@@ -19,13 +19,12 @@ int main() {
     cout << "Insert to different places: " << *list EOL;
 
     List<char> *list2 = new LinkedList<char>(*list);
-    cout << "Copy: " << *list2 << endl << endl;
+    cout << "Copy: " << *list2 EOL;
 
     (*list2)[0] = '^';
     (*list2)[4] = 'P';
     cout << "Changed copy:" << *list2 EOL;
 
-    cout << endl << endl;
     cout << "Summ: " << *(*list + *list2) EOL;
 
     delete list, delete list2;
