@@ -4,6 +4,7 @@
 #include "list.h"
 #include <iostream>
 #include <initializer_list>
+#include <memory>
 
 using namespace std;
 
@@ -15,10 +16,13 @@ class LinkedList: public List<T> {
 
     struct Item {
         T val;
-        Item *next;
-        Item(const T &val): val(val), next(0) {
+        const int position;
+        Item *next = 0;
+        Item(T val, const int position, Item *next = 0):
+            val(val), position(position), next(next) {
         }
-        Item(): next(0) {
+        ~Item() {
+            cout << "Destructor item: " << val << endl;
         }
     };
 
@@ -26,63 +30,80 @@ class LinkedList: public List<T> {
     int size;
 
 public:
-    LinkedList(initializer_list<T> list);
-    size_t getSize();
-    ~LinkedList();
+
+    LinkedList(List<T> &list) {
+        cout << "LinkedList copy ctor " << list << endl;
+        List<T>::pushAll(list);
+    }
+
+    LinkedList(initializer_list<T> list) {
+        cout << "List from brace list" << endl;
+        int position = 0;
+        for (auto i = list.begin(); i != list.end(); i++) insert(const_cast<T*>(&*i), position++);
+    }
+
+    LinkedList(): head(0), size(0) {
+    }
+
+    shared_ptr<List<T>> clone() const {
+        List<T> *cloned = new LinkedList(*this);
+        return make_shared<LinkedList<T>>(*cloned);
+    }
+
+    size_t getSize() {
+        return size;
+    }
+
+    Item* getItem(int n) {
+        Item *curr = head;
+        while (curr && curr->position < n) curr = curr->next;
+        return curr && curr->position == n? curr : nullptr;
+    }
+
+    void append(const T& t, int position) {
+        Item *item = getItem(position);
+        if (!item) insert(const_cast<T*>(&t), position);
+        else item->next = new Item(const_cast<T&>(t), position, item->next);
+    }
+
+    ~LinkedList() {
+        cout << "LinkedList destructor" << endl;
+        Item *curr;
+        while (head) {
+            curr = head;
+            head = head->next;
+            delete curr;
+        }
+    }
 
 private:
-    T &get(int i);
-    void insert(T &t, int n);
+
+    T* get(int n) {
+        Item *item = getItem(n);
+        return item? &item->val : nullptr;
+    }
+
+    void insert(T *t, int n) {
+        cout << "Insert " << *t << " in " << n << endl;
+        Item *curr = head, *prev = 0;
+        while (curr && curr->position < n) {
+            prev = curr;
+            curr = curr->next;
+        }
+        cout << "after while: " << (curr && curr->position == n) << endl;
+        if (curr && curr->position == n) curr->val = *t; // replace exists item value
+        else insertBetween(prev, curr, t, n);           // else insert new
+    }
+
+    void insertBetween(Item *prev, Item *next, T *t, int pos) {
+        char s = prev ? prev->val : '_',
+             e = next ? next->val : '_';
+        cout << "Insert between " << s << " " << *t << "(" << pos << ") " << e << endl;
+        if (!prev) head = new Item(*t, 0, next), size = 1, cout << "\t create head" << endl;
+        else if (!next) prev->next = new Item(*t, pos), size = pos + 1;
+        else prev->next = new Item(*t, pos, next);
+    }
 
 };
-
-template <typename T>
-LinkedList<T>::LinkedList(initializer_list<T> list) {
-    cout << "LinkedList constructor" << endl;
-    size = list.size();
-    head = new Item(*list.begin());
-    Item *curr = head;
-    for (auto i = (list.begin() + 1); i != list.end(); i++) {
-        curr->next = new Item(*i);
-        curr = curr->next;
-    }
-}
-
-template <typename T>
-T &LinkedList<T>::get(int i) {
-    cout << "LinkedList get from " << i << endl;
-    return head->val;
-}
-
-/**
- * Insert T in position n
- */
-template <typename T>
-void LinkedList<T>::insert(T &t, int n) {
-    cout << "LinkedList insert to " << n << " val " << t << endl;
-    Item *curr = head, *prev;
-    for (int i = 0; i < n; i++) {
-        if (!curr) curr = new Item();
-        prev = curr;
-        curr = curr->next;
-    }
-    if (curr) {
-        prev->next = new Item(t);
-        prev->next->next = curr->next;
-    } else {
-        curr = new Item(t);
-        if (prev) prev->next = curr;
-    }
-}
-
-template <typename T>
-size_t LinkedList<T>::getSize() {
-    return size;
-}
-
-template <typename T>
-LinkedList<T>::~LinkedList() {
-    cout << "LinkedList destructor" << endl;
-}
 
 #endif // LINKEDLIST_H
