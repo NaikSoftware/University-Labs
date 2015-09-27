@@ -21,9 +21,6 @@ class LinkedList: public List<T> {
         Item(T val, const int position, Item *next = 0):
             val(val), position(position), next(next) {
         }
-        ~Item() {
-            cout << "Destructor item: " << val << endl;
-        }
     };
 
     Item *head;
@@ -32,12 +29,10 @@ class LinkedList: public List<T> {
 public:
 
     LinkedList(List<T> &list) {
-        cout << "LinkedList copy ctor " << list << endl;
         List<T>::pushAll(list);
     }
 
     LinkedList(initializer_list<T> list) {
-        cout << "List from brace list" << endl;
         int position = 0;
         for (auto i = list.begin(); i != list.end(); i++) insert(const_cast<T*>(&*i), position++);
     }
@@ -67,7 +62,6 @@ public:
     }
 
     ~LinkedList() {
-        cout << "LinkedList destructor" << endl;
         Item *curr;
         while (head) {
             curr = head;
@@ -84,22 +78,17 @@ private:
     }
 
     void insert(T *t, int n) {
-        cout << "Insert " << *t << " in " << n << endl;
         Item *curr = head, *prev = 0;
         while (curr && curr->position < n) {
             prev = curr;
             curr = curr->next;
         }
-        cout << "after while: " << (curr && curr->position == n) << endl;
         if (curr && curr->position == n) curr->val = *t; // replace exists item value
-        else insertBetween(prev, curr, t, n);           // else insert new
+        else insertBetween(prev, curr, t, n);            // else insert new
     }
 
     void insertBetween(Item *prev, Item *next, T *t, int pos) {
-        char s = prev ? prev->val : '_',
-             e = next ? next->val : '_';
-        cout << "Insert between " << s << " " << *t << "(" << pos << ") " << e << endl;
-        if (!prev) head = new Item(*t, 0, next), size = 1, cout << "\t create head" << endl;
+        if (!prev) head = new Item(*t, 0, next), size = 1;
         else if (!next) prev->next = new Item(*t, pos), size = pos + 1;
         else prev->next = new Item(*t, pos, next);
     }

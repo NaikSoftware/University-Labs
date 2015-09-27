@@ -26,9 +26,7 @@ int main() {
     cout << "Changed copy:" << *list2 EOL;
 
     cout << endl << endl;
-    cout << "Summ: " << *(*list + *list2) << endl;
-    cout << "List: " << *list << endl;
-    cout << "List2:" << *list2 EOL;
+    cout << "Summ: " << *(*list + *list2) EOL;
 
     delete list, delete list2;
     return 0;

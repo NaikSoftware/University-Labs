@@ -16,7 +16,6 @@ class List {
 
 public:
     List() {
-        cout << "List empty ctor" << endl;
     }
 
     virtual shared_ptr<List<T>> clone() const = 0;
@@ -52,7 +51,6 @@ public:
     }
 
     virtual ~List() {
-        cout << "List destructor" << endl;
     }
 
 protected:
