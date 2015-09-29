@@ -38,12 +38,7 @@ public:
 
     friend ostream &operator << (ostream &out, List<T> &list) {
         size_t size = list.getSize();
-        cout << "(" << size << ") [ ";
-        for (int i = 0; i < size; i++) {
-            if (list.get(i)) cout << *list.get(i);
-            if (i != size - 1) cout << ", ";
-        }
-        cout << " ]";
+        cout << "List with " << size << " items";
         return out;
     }
 
