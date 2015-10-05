@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.canvas.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.naiksoftware.g2dconversions.controller.MainController">
+   <children>
+      <MenuBar>
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Open" onAction="#handleOpen" />
+              <MenuItem mnemonicParsing="false" text="Quit" onAction="#handleExit" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" onAction="#handleAbout" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <GridPane alignment="center" hgap="10" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="150.0" prefWidth="191.0" vgap="10" VBox.vgrow="ALWAYS">
+         <columnConstraints>
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="5.0" prefWidth="5.0" />
+            <ColumnConstraints hgrow="NEVER" maxWidth="300.0" minWidth="300.0" prefWidth="300.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints maxHeight="1.7976931348623157E308" valignment="CENTER" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Canvas height="400.0" width="600.0" />
+            <GridPane GridPane.columnIndex="2">
+              <columnConstraints>
+                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="-Infinity" minWidth="100.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="-Infinity" minWidth="100.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="-Infinity" minWidth="100.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints maxHeight="-Infinity" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="25.0" prefHeight="25.0" valignment="TOP" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="25.0" prefHeight="25.0" valignment="BOTTOM" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="50.0" prefHeight="50.0" valignment="CENTER" vgrow="NEVER" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="50.0" prefHeight="50.0" valignment="CENTER" vgrow="NEVER" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="50.0" prefHeight="50.0" valignment="CENTER" vgrow="NEVER" />
+              </rowConstraints>
+               <children>
+                  <Button mnemonicParsing="false" text="←" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" text="↓" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" text="→" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" text="↑" GridPane.columnIndex="1">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" text="⟳" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" text="⍇" GridPane.rowIndex="6">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" text="⍈" GridPane.columnIndex="2" GridPane.rowIndex="6">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" text="⍐" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" text="⍗" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Button>
+                  <Separator prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="3">
+                     <padding>
+                        <Insets right="10.0" />
+                     </padding>
+                  </Separator>
+                  <Separator prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="4">
+                     <GridPane.margin>
+                        <Insets right="10.0" />
+                     </GridPane.margin>
+                  </Separator>
+               </children>
+               <padding>
+                  <Insets bottom="40.0" />
+               </padding>
+            </GridPane>
+            <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="1" />
+         </children>
+      </GridPane>
+   </children>
+</VBox>
