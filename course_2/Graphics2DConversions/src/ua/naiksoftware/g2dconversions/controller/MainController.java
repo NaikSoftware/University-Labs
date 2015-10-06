@@ -46,8 +46,10 @@ public class MainController {
         });
 
         conversionsController.changeProperty().addListener((observable, oldValue, newValue) -> {
-            rootShape.transform(newValue);
-            redraw();
+            if (rootShape != null) {
+                rootShape.transform(newValue);
+                redraw();
+            }
         });
     }
 
@@ -69,7 +71,7 @@ public class MainController {
 
     private void redraw() {
         graphics.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        rootShape.draw(graphics);
+        if (rootShape != null) rootShape.draw(graphics);
         graphics.setFill(Color.RED);
         graphics.fillOval(cx - 3, cy - 3, 6, 6);
     }

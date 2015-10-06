@@ -19,6 +19,7 @@ public class Line extends Shape {
     @Override
     public void transform(Matrix3f matrix) {
         // TODO: transform start and end points
+        System.out.println("Transform: \n" + matrix);
     }
 
     @Override

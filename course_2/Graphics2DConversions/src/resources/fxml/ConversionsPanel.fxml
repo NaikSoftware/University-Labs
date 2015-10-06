@@ -26,7 +26,7 @@
         <RowConstraints maxHeight="-Infinity" minHeight="50.0" prefHeight="50.0" valignment="CENTER" vgrow="NEVER"/>
     </rowConstraints>
     <children>
-        <Button mnemonicParsing="false" text="←" GridPane.rowIndex="1">
+        <Button mnemonicParsing="false" text="←" GridPane.rowIndex="1" fx:id="btnMoveLeft">
             <font>
                 <Font size="20.0"/>
             </font>
@@ -36,7 +36,7 @@
                 <Font size="20.0"/>
             </font>
         </Button>
-        <Button mnemonicParsing="false" text="→" GridPane.columnIndex="2" GridPane.rowIndex="1">
+        <Button mnemonicParsing="false" text="→" GridPane.columnIndex="2" GridPane.rowIndex="1" fx:id="btnMoveRight">
             <font>
                 <Font size="20.0"/>
             </font>
