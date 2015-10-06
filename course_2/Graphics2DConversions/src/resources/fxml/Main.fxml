@@ -17,13 +17,13 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" text="Open" onAction="#handleOpen" />
-              <MenuItem mnemonicParsing="false" text="Quit" onAction="#handleExit" />
+              <MenuItem mnemonicParsing="false" onAction="#handleOpen" text="Open" />
+              <MenuItem mnemonicParsing="false" onAction="#handleExit" text="Quit" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
-              <MenuItem mnemonicParsing="false" text="About" onAction="#handleAbout" />
+              <MenuItem mnemonicParsing="false" onAction="#handleAbout" text="About" />
             </items>
           </Menu>
         </menus>
@@ -38,7 +38,11 @@
             <RowConstraints maxHeight="1.7976931348623157E308" valignment="CENTER" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Canvas height="400.0" width="600.0" />
+            <StackPane fx:id="canvasWrapper" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="200.0" minWidth="400.0" GridPane.hgrow="SOMETIMES" GridPane.vgrow="SOMETIMES">
+               <children>
+                  <Canvas fx:id="canvas" height="400.0" width="600.0" />
+               </children>
+            </StackPane>
             <GridPane GridPane.columnIndex="2">
               <columnConstraints>
                   <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="-Infinity" minWidth="100.0" prefWidth="100.0" />
