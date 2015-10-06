@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<?import javafx.geometry.Insets?>
+
+<GridPane xmlns="http://javafx.com/javafx/8"
+          xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.naiksoftware.g2dconversions.controller.ConversionsController">
+    <columnConstraints>
+        <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="-Infinity" minWidth="100.0" prefWidth="100.0"/>
+        <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="-Infinity" minWidth="100.0" prefWidth="100.0"/>
+        <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="-Infinity" minWidth="100.0" prefWidth="100.0"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints maxHeight="-Infinity" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="-Infinity" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="-Infinity" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="25.0" prefHeight="25.0" valignment="TOP"
+                        vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="25.0" prefHeight="25.0" valignment="BOTTOM"
+                        vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="-Infinity" minHeight="50.0" prefHeight="50.0" valignment="CENTER" vgrow="NEVER"/>
+        <RowConstraints maxHeight="-Infinity" minHeight="50.0" prefHeight="50.0" valignment="CENTER" vgrow="NEVER"/>
+        <RowConstraints maxHeight="-Infinity" minHeight="50.0" prefHeight="50.0" valignment="CENTER" vgrow="NEVER"/>
+    </rowConstraints>
+    <children>
+        <Button mnemonicParsing="false" text="←" GridPane.rowIndex="1">
+            <font>
+                <Font size="20.0"/>
+            </font>
+        </Button>
+        <Button mnemonicParsing="false" text="↓" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <font>
+                <Font size="20.0"/>
+            </font>
+        </Button>
+        <Button mnemonicParsing="false" text="→" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <font>
+                <Font size="20.0"/>
+            </font>
+        </Button>
+        <Button mnemonicParsing="false" text="↑" GridPane.columnIndex="1">
+            <font>
+                <Font size="20.0"/>
+            </font>
+        </Button>
+        <Button mnemonicParsing="false" text="⟳" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <font>
+                <Font size="20.0"/>
+            </font>
+        </Button>
+        <Button mnemonicParsing="false" text="⍇" GridPane.rowIndex="6">
+            <font>
+                <Font size="20.0"/>
+            </font>
+        </Button>
+        <Button mnemonicParsing="false" text="⍈" GridPane.columnIndex="2" GridPane.rowIndex="6">
+            <font>
+                <Font size="20.0"/>
+            </font>
+        </Button>
+        <Button mnemonicParsing="false" text="⍐" GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <font>
+                <Font size="20.0"/>
+            </font>
+        </Button>
+        <Button mnemonicParsing="false" text="⍗" GridPane.columnIndex="1" GridPane.rowIndex="7">
+            <font>
+                <Font size="20.0"/>
+            </font>
+        </Button>
+        <Separator prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="3">
+            <padding>
+                <Insets right="10.0"/>
+            </padding>
+        </Separator>
+        <Separator prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="4">
+            <GridPane.margin>
+                <Insets right="10.0"/>
+            </GridPane.margin>
+        </Separator>
+    </children>
+    <padding>
+        <Insets bottom="40.0"/>
+    </padding>
+</GridPane>

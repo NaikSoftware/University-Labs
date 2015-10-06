@@ -3,14 +3,10 @@ package ua.naiksoftware.g2dconversions.controller;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.FillRule;
 import javafx.stage.FileChooser;
 import ua.naiksoftware.g2dconversions.Context;
 import ua.naiksoftware.g2dconversions.Parser;
@@ -24,13 +20,14 @@ public class MainController {
     private Canvas canvas;
     @FXML
     private Pane canvasWrapper;
+    @FXML
+    private ConversionsController conversionsController;
 
     private FileChooser fileChooser;
-    private File file;
 
     private Shape rootShape;
     private GraphicsContext graphics;
-    private static final Color BG = Color.AZURE;
+    private double cx, cy;
 
     @FXML
     private void initialize() {
@@ -41,11 +38,22 @@ public class MainController {
         graphics = canvas.getGraphicsContext2D();
         canvas.widthProperty().bind(canvasWrapper.widthProperty());
         canvas.heightProperty().bind(canvasWrapper.heightProperty());
+        canvas.setOnMouseClicked(event -> {
+            cx = event.getX();
+            cy = event.getY();
+            conversionsController.setCenter(cx, cy);
+            redraw();
+        });
+
+        conversionsController.changeProperty().addListener((observable, oldValue, newValue) -> {
+            rootShape.transform(newValue);
+            redraw();
+        });
     }
 
     @FXML
     private void handleOpen(ActionEvent event) {
-        file = fileChooser.showOpenDialog(Context.getPrimaryStage());
+        File file = fileChooser.showOpenDialog(Context.getPrimaryStage());
         if (file == null) return;
         else fileChooser.setInitialDirectory(file.getParentFile());
         try {
@@ -62,6 +70,8 @@ public class MainController {
     private void redraw() {
         graphics.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         rootShape.draw(graphics);
+        graphics.setFill(Color.RED);
+        graphics.fillOval(cx - 3, cy - 3, 6, 6);
     }
 
     @FXML
