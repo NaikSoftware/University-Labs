@@ -31,7 +31,7 @@
                 <Font size="20.0"/>
             </font>
         </Button>
-        <Button mnemonicParsing="false" text="↓" GridPane.columnIndex="1" GridPane.rowIndex="2">
+        <Button mnemonicParsing="false" text="↓" GridPane.columnIndex="1" GridPane.rowIndex="2" fx:id="btnMoveDown">
             <font>
                 <Font size="20.0"/>
             </font>
@@ -41,32 +41,32 @@
                 <Font size="20.0"/>
             </font>
         </Button>
-        <Button mnemonicParsing="false" text="↑" GridPane.columnIndex="1">
+        <Button mnemonicParsing="false" text="↑" GridPane.columnIndex="1" fx:id="btnMoveUp">
             <font>
                 <Font size="20.0"/>
             </font>
         </Button>
-        <Button mnemonicParsing="false" text="⟳" GridPane.columnIndex="1" GridPane.rowIndex="1">
+        <Button mnemonicParsing="false" text="⟳" GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="btnRotate">
             <font>
                 <Font size="20.0"/>
             </font>
         </Button>
-        <Button mnemonicParsing="false" text="⍇" GridPane.rowIndex="6">
+        <Button mnemonicParsing="false" text="⍇" GridPane.rowIndex="6" fx:id="btnScaleMinHoriz">
             <font>
                 <Font size="20.0"/>
             </font>
         </Button>
-        <Button mnemonicParsing="false" text="⍈" GridPane.columnIndex="2" GridPane.rowIndex="6">
+        <Button mnemonicParsing="false" text="⍈" GridPane.columnIndex="2" GridPane.rowIndex="6" fx:id="btnScaleMaxHoriz">
             <font>
                 <Font size="20.0"/>
             </font>
         </Button>
-        <Button mnemonicParsing="false" text="⍐" GridPane.columnIndex="1" GridPane.rowIndex="5">
+        <Button mnemonicParsing="false" text="⍐" GridPane.columnIndex="1" GridPane.rowIndex="5" fx:id="btnScaleMaxVert">
             <font>
                 <Font size="20.0"/>
             </font>
         </Button>
-        <Button mnemonicParsing="false" text="⍗" GridPane.columnIndex="1" GridPane.rowIndex="7">
+        <Button mnemonicParsing="false" text="⍗" GridPane.columnIndex="1" GridPane.rowIndex="7" fx:id="btnScaleMinVert">
             <font>
                 <Font size="20.0"/>
             </font>

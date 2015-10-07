@@ -27,7 +27,7 @@ public class MainController {
 
     private Shape rootShape;
     private GraphicsContext graphics;
-    private double cx, cy;
+    private float cx, cy;
 
     @FXML
     private void initialize() {
@@ -39,8 +39,8 @@ public class MainController {
         canvas.widthProperty().bind(canvasWrapper.widthProperty());
         canvas.heightProperty().bind(canvasWrapper.heightProperty());
         canvas.setOnMouseClicked(event -> {
-            cx = event.getX();
-            cy = event.getY();
+            cx = (float) event.getX();
+            cy = (float) event.getY();
             conversionsController.setCenter(cx, cy);
             redraw();
         });

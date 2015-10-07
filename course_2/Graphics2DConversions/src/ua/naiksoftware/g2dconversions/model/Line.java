@@ -3,6 +3,7 @@ package ua.naiksoftware.g2dconversions.model;
 import com.sun.javafx.geom.Matrix3f;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
+import ua.naiksoftware.g2dconversions.Operation;
 
 /**
  * Created by N on 06.10.2015.
@@ -18,8 +19,8 @@ public class Line extends Shape {
 
     @Override
     public void transform(Matrix3f matrix) {
-        // TODO: transform start and end points
-        System.out.println("Transform: \n" + matrix);
+        start = Operation.multiple(matrix, start);
+        end = Operation.multiple(matrix, end);
     }
 
     @Override
