@@ -4,6 +4,7 @@ import javafx.util.Callback;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+import ua.naiksoftware.g2dconversions.model.Circle;
 import ua.naiksoftware.g2dconversions.model.Line;
 import ua.naiksoftware.g2dconversions.model.Rect;
 import ua.naiksoftware.g2dconversions.model.Shape;
@@ -40,18 +41,25 @@ public class Parser extends DefaultHandler {
                 break;
             case "line":
                 root.addInner(new Line(
-                        Integer.parseInt(attrs.getValue("x1")),
-                        Integer.parseInt(attrs.getValue("y1")),
-                        Integer.parseInt(attrs.getValue("x2")),
-                        Integer.parseInt(attrs.getValue("y2"))
+                        Float.parseFloat(attrs.getValue("x1")),
+                        Float.parseFloat(attrs.getValue("y1")),
+                        Float.parseFloat(attrs.getValue("x2")),
+                        Float.parseFloat(attrs.getValue("y2"))
                 ));
                 break;
             case "rect":
                 root.addInner(new Rect(
-                        Integer.parseInt(attrs.getValue("x")),
-                        Integer.parseInt(attrs.getValue("y")),
-                        Integer.parseInt(attrs.getValue("width")),
-                        Integer.parseInt(attrs.getValue("height"))
+                        Float.parseFloat(attrs.getValue("x")),
+                        Float.parseFloat(attrs.getValue("y")),
+                        Float.parseFloat(attrs.getValue("width")),
+                        Float.parseFloat(attrs.getValue("height"))
+                ));
+                break;
+            case "circle":
+                root.addInner(new Circle(
+                        Float.parseFloat(attrs.getValue("cx")),
+                        Float.parseFloat(attrs.getValue("cy")),
+                        Float.parseFloat(attrs.getValue("r"))
                 ));
                 break;
 
