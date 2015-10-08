@@ -1,10 +1,14 @@
 package ua.naiksoftware.g2dconversions.controller;
 
 import com.sun.javafx.geom.Matrix3f;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
+import javafx.util.Duration;
 
 import java.util.concurrent.Callable;
 
@@ -15,7 +19,9 @@ import static java.lang.Math.*;
  */
 public class ConversionsController {
 
-    private static final float D = 5; // delta
+    private static final int FRAME_RATE = 20; //ms
+
+    private static final float D = 2; // delta
     private static final double THETA = D * PI / 180;
     private static final float SCALE_FACTOR = 0.1f;
 
@@ -88,12 +94,19 @@ public class ConversionsController {
     }
 
     private void setupButton(Button btn, Callable<Matrix3f> callable) {
-        btn.setOnMousePressed(event -> { // TODO: handle hold button
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(FRAME_RATE), event -> {
             try {
                 changeProperty().setValue(callable.call());
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        btn.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
+            timeline.play();
+        });
+        btn.addEventHandler(MouseEvent.MOUSE_RELEASED, event -> {
+            timeline.stop();
         });
     }
 }
