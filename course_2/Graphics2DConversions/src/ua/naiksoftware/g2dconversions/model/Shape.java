@@ -1,8 +1,8 @@
 package ua.naiksoftware.g2dconversions.model;
 
-import com.sun.javafx.geom.Matrix3f;
 import javafx.scene.canvas.GraphicsContext;
 
+import javax.vecmath.Matrix3d;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +12,6 @@ import java.util.List;
 public class Shape {
 
     private List<Shape> inners = new ArrayList<>();
-    private double x, y;
 
     public List<Shape> getInners() {
         return inners;
@@ -22,7 +21,7 @@ public class Shape {
         inners.add(shape);
     }
 
-    public void transform(Matrix3f matrix) {
+    public void transform(Matrix3d matrix) {
         inners.stream().forEach(shape -> shape.transform(matrix));
     }
 

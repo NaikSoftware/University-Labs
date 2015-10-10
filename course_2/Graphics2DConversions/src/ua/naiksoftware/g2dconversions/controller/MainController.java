@@ -1,5 +1,7 @@
 package ua.naiksoftware.g2dconversions.controller;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,10 +10,12 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
+import javafx.util.Duration;
 import ua.naiksoftware.g2dconversions.Context;
 import ua.naiksoftware.g2dconversions.Parser;
 import ua.naiksoftware.g2dconversions.model.Shape;
 
+import javax.vecmath.Matrix3d;
 import java.io.File;
 
 public class MainController {
@@ -23,11 +27,14 @@ public class MainController {
     @FXML
     private ConversionsController conversionsController;
 
+    private static final int FRAME_RATE = 20; //ms
+
     private FileChooser fileChooser;
 
     private Shape rootShape;
     private GraphicsContext graphics;
     private float cx, cy;
+    private Matrix3d matrix;
 
     @FXML
     private void initialize() {
@@ -45,10 +52,17 @@ public class MainController {
             redraw();
         });
 
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(FRAME_RATE), event -> {
+            rootShape.transform(matrix);
+            redraw();
+        }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+
         conversionsController.changeProperty().addListener((observable, oldValue, newValue) -> {
+            matrix = newValue;
             if (rootShape != null) {
-                rootShape.transform(newValue);
-                redraw();
+                if (newValue != null) timeline.play();
+                else timeline.stop();
             }
         });
     }

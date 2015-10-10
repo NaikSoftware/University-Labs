@@ -4,7 +4,7 @@
      xmlns="http://www.w3.org/2000/svg"
      height="400px" width="400px">
 
-    <rectz x="50" y="50" width="200" height="200" fill="none" stroke="black" stroke-width="5px" stroke-opacity="0.5"/>
+    <rect x="50" y="50" width="200" height="200" fill="none" stroke="black" stroke-width="5px" stroke-opacity="0.5"/>
     <circle cx="125" cy="125" r="75"/>
 
 </svg>

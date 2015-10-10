@@ -1,41 +1,41 @@
 package ua.naiksoftware.g2dconversions.model;
 
 import com.sun.javafx.geom.Matrix3f;
-import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
-import ua.naiksoftware.g2dconversions.Operation;
+
+import javax.vecmath.Matrix3d;
 
 /**
  * Created by naik on 08.10.15.
  */
 public class Circle extends Shape {
 
-    private Point2D midLeft, midTop, midRight, midDown;
-    private Point2D leftTop, rightTop, rightDown, leftDown;
+    private Point midLeft, midTop, midRight, midDown;
+    private Point ctrl1, ctrl2, ctrl3, ctrl4, ctrl5, ctrl6, ctrl7, ctrl8;
 
-    public Circle(float cx, float cy, float radius) {
+    public Circle(double cx, double cy, double radius) {
 
-        midLeft = new Point2D(cx - radius, cy);
-        midTop = new Point2D(cx, cy - radius);
-        midRight = new Point2D(cx + radius, cy);
-        midDown = new Point2D(cx, cy + radius);
-        leftTop = new Point2D(cx - radius, cy - radius);
-        rightTop = new Point2D(cx + radius, cy - radius);
-        rightDown = new Point2D(cx + radius, cy + radius);
-        leftDown = new Point2D(cx - radius, cy + radius);
+        midLeft = new Point(cx - radius, cy);
+        midTop = new Point(cx, cy - radius);
+        midRight = new Point(cx + radius, cy);
+        midDown = new Point(cx, cy + radius);
+
+        double L = radius * 4f / 3 * Math.tan(Math.PI / 8);
+
+        ctrl1 = midLeft.add(0, -L);
+        ctrl2 = midTop.add(-L, 0);
+        ctrl3 = midTop.add(L, 0);
+        ctrl4 = midRight.add(0, -L);
+        ctrl5 = midRight.add(0, L);
+        ctrl6 = midDown.add(L, 0);
+        ctrl7 = midDown.add(-L, 0);
+        ctrl8 = midLeft.add(0, L);
     }
 
     @Override
-    public void transform(Matrix3f matrix) {
-        midLeft = Operation.multiple(matrix, midLeft);
-        midTop = Operation.multiple(matrix, midTop);
-        midRight = Operation.multiple(matrix, midRight);
-        midDown = Operation.multiple(matrix, midDown);
-
-        leftTop = Operation.multiple(matrix, leftTop);
-        rightTop = Operation.multiple(matrix, rightTop);
-        rightDown = Operation.multiple(matrix, rightDown);
-        leftDown = Operation.multiple(matrix, leftDown);
+    public void transform(Matrix3d matrix) {
+        Point.transform(matrix, midLeft, midTop, midRight, midDown,
+                ctrl1, ctrl2, ctrl3, ctrl4, ctrl5, ctrl6, ctrl7, ctrl8);
     }
 
     @Override
@@ -43,24 +43,16 @@ public class Circle extends Shape {
         graphicsContext.beginPath();
         graphicsContext.moveTo(midLeft.getX(), midLeft.getY());
 
-        graphicsContext.quadraticCurveTo(midLeft.midpoint(leftTop).getX(), midLeft.midpoint(leftTop).getY(),
+        graphicsContext.bezierCurveTo(ctrl1.getX(), ctrl1.getY(), ctrl2.getX(), ctrl2.getY(),
                 midTop.getX(), midTop.getY());
 
-        graphicsContext.moveTo(midLeft.getX(), midLeft.getY());
-        graphicsContext.bezierCurveTo(midLeft.midpoint(leftTop).getX(), midLeft.midpoint(leftTop).getY(),
-                leftTop.midpoint(midTop).getX(), leftTop.midpoint(midTop).getY(),
-                midTop.getX(), midTop.getY());
-
-        graphicsContext.bezierCurveTo(midTop.midpoint(rightTop).getX(), midTop.midpoint(rightTop).getY(),
-                rightTop.midpoint(midRight).getX(), rightTop.midpoint(midRight).getY(),
+        graphicsContext.bezierCurveTo(ctrl3.getX(), ctrl3.getY(), ctrl4.getX(), ctrl4.getY(),
                 midRight.getX(), midRight.getY());
 
-        graphicsContext.bezierCurveTo(midRight.midpoint(rightDown).getX(), midRight.midpoint(rightDown).getY(),
-                rightDown.midpoint(midDown).getX(), rightDown.midpoint(midDown).getY(),
+        graphicsContext.bezierCurveTo(ctrl5.getX(), ctrl5.getY(), ctrl6.getX(), ctrl6.getY(),
                 midDown.getX(), midDown.getY());
 
-        graphicsContext.bezierCurveTo(midDown.midpoint(leftDown).getX(), midDown.midpoint(leftDown).getY(),
-                leftDown.midpoint(midLeft).getX(), leftDown.midpoint(midLeft).getY(),
+        graphicsContext.bezierCurveTo(ctrl7.getX(), ctrl7.getY(), ctrl8.getX(), ctrl8.getY(),
                 midLeft.getX(), midLeft.getY());
 
         graphicsContext.stroke();

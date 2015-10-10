@@ -41,25 +41,25 @@ public class Parser extends DefaultHandler {
                 break;
             case "line":
                 root.addInner(new Line(
-                        Float.parseFloat(attrs.getValue("x1")),
-                        Float.parseFloat(attrs.getValue("y1")),
-                        Float.parseFloat(attrs.getValue("x2")),
-                        Float.parseFloat(attrs.getValue("y2"))
+                        Double.parseDouble(attrs.getValue("x1")),
+                        Double.parseDouble(attrs.getValue("y1")),
+                        Double.parseDouble(attrs.getValue("x2")),
+                        Double.parseDouble(attrs.getValue("y2"))
                 ));
                 break;
             case "rect":
                 root.addInner(new Rect(
-                        Float.parseFloat(attrs.getValue("x")),
-                        Float.parseFloat(attrs.getValue("y")),
-                        Float.parseFloat(attrs.getValue("width")),
-                        Float.parseFloat(attrs.getValue("height"))
+                        Double.parseDouble(attrs.getValue("x")),
+                        Double.parseDouble(attrs.getValue("y")),
+                        Double.parseDouble(attrs.getValue("width")),
+                        Double.parseDouble(attrs.getValue("height"))
                 ));
                 break;
             case "circle":
                 root.addInner(new Circle(
-                        Float.parseFloat(attrs.getValue("cx")),
-                        Float.parseFloat(attrs.getValue("cy")),
-                        Float.parseFloat(attrs.getValue("r"))
+                        Double.parseDouble(attrs.getValue("cx")),
+                        Double.parseDouble(attrs.getValue("cy")),
+                        Double.parseDouble(attrs.getValue("r"))
                 ));
                 break;
 
