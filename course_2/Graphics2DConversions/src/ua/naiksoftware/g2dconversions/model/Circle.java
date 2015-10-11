@@ -1,6 +1,5 @@
 package ua.naiksoftware.g2dconversions.model;
 
-import com.sun.javafx.geom.Matrix3f;
 import javafx.scene.canvas.GraphicsContext;
 
 import javax.vecmath.Matrix3d;
