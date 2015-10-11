@@ -27,8 +27,9 @@ public class Point {
     }
 
     public void transform(Matrix3d m) {
-        x = x * m.m00 + y * m.m10 + m.m20;
-        y = x * m.m01 + y * m.m11 + m.m21;
+        double tmp_x = x, tmp_y = y;
+        x = tmp_x * m.m00 + tmp_y * m.m10 + m.m20;
+        y = tmp_x * m.m01 + tmp_y * m.m11 + m.m21;
     }
 
     public static void transform(Matrix3d m, Point... points) {

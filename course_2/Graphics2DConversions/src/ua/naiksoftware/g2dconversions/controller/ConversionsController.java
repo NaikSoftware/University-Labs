@@ -16,7 +16,7 @@ import static java.lang.Math.*;
  */
 public class ConversionsController {
 
-    private static final float D = 2; // delta
+    private static final float D = 3; // delta
     private static final double THETA = D * PI / 180;
     private static final float SCALE_FACTOR = 0.1f;
 
@@ -55,7 +55,7 @@ public class ConversionsController {
         setupButton(btnRotate, () -> new Matrix3d(
                 cos(THETA), sin(THETA), 0,
                 -sin(THETA), cos(THETA), 0,
-                -cx * (cos(THETA) - 1) + cy * sin(THETA), -cy * (cos(THETA) - 1) - cx * sin(THETA), 1
+                -cx * (cos(THETA) - 1) + cy * sin(THETA), -cx * sin(THETA) - cy * (cos(THETA) - 1), 1
         ));
         setupButton(btnScaleMinHoriz, () -> new Matrix3d(
                 1 - SCALE_FACTOR, 0, 0,
