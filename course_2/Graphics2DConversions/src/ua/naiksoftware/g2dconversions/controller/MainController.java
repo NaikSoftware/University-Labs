@@ -83,6 +83,8 @@ public class MainController {
         }
     }
 
+    // .....
+
     private void redraw() {
         graphics.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         if (rootShape != null) rootShape.draw(graphics);
