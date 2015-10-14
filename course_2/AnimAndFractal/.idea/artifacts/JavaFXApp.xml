@@ -14,6 +14,10 @@
     <root id="root">
       <element id="archive" name="JavaFXApp.jar">
         <element id="module-output" name="AnimAndFractal" />
+        <element id="extracted-dir" path="$USER_HOME$/Programs/processing-3.0/core/library/core.jar" path-in-jar="/" />
+        <element id="directory" name="data">
+          <element id="dir-copy" path="$PROJECT_DIR$/data" />
+        </element>
       </element>
     </root>
   </artifact>

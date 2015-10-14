@@ -16,8 +16,8 @@ public class Sketch extends PApplet {
     @Override
     public void settings() {
         //size(600, 300);
-        //size(1280, 768);
-        fullScreen();
+        size(1280, 768);
+        //fullScreen();
     }
 
     public int X_AXIS = 1, Y_AXIS = 2;
@@ -30,11 +30,18 @@ public class Sketch extends PApplet {
     int WATER_LINE;
     Wave[] waves = new Wave[WAVE_COUNT];
     Sun sun;
+    PGraphics background;
 
     @Override
     public void setup() {
-        smooth();
         WATER_LINE = height / 5;
+
+        background = createGraphics(width, height);
+        background.beginDraw();
+        gradient(background, 0, WATER_LINE, width, height, BG_START_COLOR, BG_END_COLOR, Y_AXIS);
+        gradient(background, 0, 0, width, WATER_LINE, SKY_BEGIN_COLOR, SKY_END_COLOR, Y_AXIS);
+        background.endDraw();
+
         sun = new Sun(this);
         for (int i = 0; i < waves.length; i++)
             waves[i] = new Wave(this,
@@ -44,11 +51,10 @@ public class Sketch extends PApplet {
 
     @Override
     public void draw() {
-        clear();
-        gradient(g, 0, WATER_LINE, width, height, BG_START_COLOR, BG_END_COLOR, Y_AXIS);
-        gradient(g, 0, 0, width, WATER_LINE, SKY_BEGIN_COLOR, SKY_END_COLOR, Y_AXIS);
+        image(background, 0, 0);
         for (Wave wave : waves) wave.display(WATER_LINE);
         sun.display();
+        text(frameRate, 5, 40);
     }
 
     public void gradient(PGraphics g, int x, int y, float w, float h, int color1, int color2, int axis) {
