@@ -12,11 +12,12 @@ public class Wave {
 
     Sketch a;
     PGraphics g;
-    float x, shape_width, speed;
+    float x, y, shape_width, speed;
     int shapes, y_shift;
 
-    public Wave(Sketch a, int color) {
+    public Wave(Sketch a, int y, int color) {
         this.a = a;
+        this.y = y;
 
         int factor = min(a.width, a.height);
         float amplitude = a.random(factor / 50, factor / 40);
@@ -47,11 +48,11 @@ public class Wave {
         y_shift = (int) (a.random(0, amplitude * 4));
 
         g.mask(createAlphaMask(g.width, g.height));
-        cleanColor(g, MODE_YELLOW);
+        cleanColor(g);
         g.endDraw();
     }
 
-    public void display(int y) {
+    public void display() {
         if (speed > 0) x = x < 0 ? x + speed : -shape_width;
         else x = x < -shape_width ? 0 : x + speed;
         for (int i = 0; i < shapes; i++) {
@@ -67,8 +68,7 @@ public class Wave {
         return g;
     }
 
-    int MODE_YELLOW = 4;
-    void cleanColor(PGraphics g, int mode) {
+    void cleanColor(PGraphics g) {
         int w = g.width;
         int h = g.height;
         int color;

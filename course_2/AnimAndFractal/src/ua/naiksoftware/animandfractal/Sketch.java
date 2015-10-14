@@ -2,6 +2,8 @@ package ua.naiksoftware.animandfractal;
 
 import processing.core.PApplet;
 import processing.core.PGraphics;
+import ua.naiksoftware.animandfractal.shapes.Fish;
+import ua.naiksoftware.animandfractal.shapes.Star;
 import ua.naiksoftware.animandfractal.shapes.Sun;
 import ua.naiksoftware.animandfractal.shapes.Wave;
 
@@ -16,7 +18,7 @@ public class Sketch extends PApplet {
     @Override
     public void settings() {
         //size(600, 300);
-        size(1280, 768);
+        size(1280, 768, P3D);
         //fullScreen();
     }
 
@@ -26,11 +28,16 @@ public class Sketch extends PApplet {
     int SKY_BEGIN_COLOR = 0xFFddb600, SKY_END_COLOR = 0xFFff4c00;
 
     int WAVE_COUNT = 10;
+    int STAR_COUNT = 50;
+    int FISH_COUNT = 10;
 
     int WATER_LINE;
     Wave[] waves = new Wave[WAVE_COUNT];
+    Star[] stars = new Star[STAR_COUNT];
+    Fish[] fishs = new Fish[FISH_COUNT];
     Sun sun;
     PGraphics background;
+    Star star;
 
     @Override
     public void setup() {
@@ -44,15 +51,22 @@ public class Sketch extends PApplet {
 
         sun = new Sun(this);
         for (int i = 0; i < waves.length; i++)
-            waves[i] = new Wave(this,
-                    color(red(BG_START_COLOR), green(BG_START_COLOR),
-                            random(blue(BG_START_COLOR) - 20, blue(BG_START_COLOR) + 70)));
+            waves[i] = new Wave(this, WATER_LINE, color(red(BG_START_COLOR), green(BG_START_COLOR),
+                    random(blue(BG_START_COLOR) - 20, blue(BG_START_COLOR) + 70)));
+        for (int i = 0; i < STAR_COUNT; i++) {
+            stars[i] = new Star(this, WATER_LINE, color(random(255), random(255), random(255), random(50, 255)));
+        }
+        for (int i = 0; i < FISH_COUNT; i++) {
+            fishs[i] = new Fish(this, WATER_LINE);
+        }
     }
 
     @Override
     public void draw() {
         image(background, 0, 0);
-        for (Wave wave : waves) wave.display(WATER_LINE);
+        for (Wave wave : waves) wave.display();
+        for (Star star : stars) star.display();
+        for (Fish fish : fishs) fish.display();
         sun.display();
         text(frameRate, 5, 40);
     }

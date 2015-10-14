@@ -1,6 +1,5 @@
 package ua.naiksoftware.animandfractal.shapes;
 
-import processing.core.PApplet;
 import processing.core.PImage;
 import ua.naiksoftware.animandfractal.Sketch;
 
@@ -14,7 +13,7 @@ public class Sun {
     int size;
     int minx;
 
-    PApplet a;
+    Sketch a;
     PImage image;
 
     public Sun(Sketch a) {
