@@ -1,7 +1,6 @@
 package ua.naiksoftware.animandfractal.shapes;
 
 import processing.core.PGraphics;
-import processing.core.PVector;
 import ua.naiksoftware.animandfractal.Sketch;
 
 import static processing.core.PApplet.*;
@@ -29,8 +28,8 @@ public class Star {
         x = a.random(minX, maxX);
         y = a.random(minY, maxY);
         float z = a.random(-400, -100);
-        dx = a.random(-1.5f, 1.5f);
-        dy = a.random(-0.4f, 0.4f);
+        dx = a.random(-0.015f, 0.015f);
+        dy = a.random(-0.01f, 0.01f);
 
         g = a.createGraphics(width, height, P3D);
         g.beginDraw();
@@ -80,11 +79,11 @@ public class Star {
         }
     }
 
-    public void display() {
+    public void display(int deltaTime) {
         if (x < minX || x > maxX) dx *= -1;
         if (y < minY || y > maxY) dy *= -1;
-        x += dx;
-        y += dy;
+        x += dx * deltaTime;
+        y += dy * deltaTime;
         a.image(g, x, y);
     }
 }

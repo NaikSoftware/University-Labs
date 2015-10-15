@@ -43,7 +43,7 @@ public class Wave {
 
         shape_width--; // for overflow segments in draw method
         shapes = ceil((a.width + shape_width - 1) / shape_width) + 1;
-        speed = a.random(0.5f, 3) * (shape_width % 5 > 2.5 ? 1 : -1);
+        speed = a.random(0.01f, 0.1f) * (shape_width % 5 > 2.5 ? 1 : -1);
         x = speed > 0 ? -shape_width : 0;
         y_shift = (int) (a.random(0, amplitude * 4));
 
@@ -52,9 +52,9 @@ public class Wave {
         g.endDraw();
     }
 
-    public void display() {
-        if (speed > 0) x = x < 0 ? x + speed : -shape_width;
-        else x = x < -shape_width ? 0 : x + speed;
+    public void display(int deltaTime) {
+        if (speed > 0) x = x < 0 ? x + speed * deltaTime : -shape_width;
+        else x = x < -shape_width ? 0 : x + speed * deltaTime;
         for (int i = 0; i < shapes; i++) {
             a.image(g, x + i * shape_width, y + y_shift);
         }

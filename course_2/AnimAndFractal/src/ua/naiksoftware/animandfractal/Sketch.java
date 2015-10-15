@@ -31,44 +31,48 @@ public class Sketch extends PApplet {
     int STAR_COUNT = 50;
     int FISH_COUNT = 10;
 
-    int WATER_LINE;
+    PGraphics background;
+    Sun sun;
     Wave[] waves = new Wave[WAVE_COUNT];
     Star[] stars = new Star[STAR_COUNT];
     Fish[] fishs = new Fish[FISH_COUNT];
-    Sun sun;
-    PGraphics background;
-    Star star;
+
+    long lastTime;
+    int deltaTime;
 
     @Override
     public void setup() {
-        WATER_LINE = height / 5;
+        int waterLine = height / 5;
 
         background = createGraphics(width, height);
         background.beginDraw();
-        gradient(background, 0, WATER_LINE, width, height, BG_START_COLOR, BG_END_COLOR, Y_AXIS);
-        gradient(background, 0, 0, width, WATER_LINE, SKY_BEGIN_COLOR, SKY_END_COLOR, Y_AXIS);
+        gradient(background, 0, waterLine, width, height, BG_START_COLOR, BG_END_COLOR, Y_AXIS);
+        gradient(background, 0, 0, width, waterLine, SKY_BEGIN_COLOR, SKY_END_COLOR, Y_AXIS);
         background.endDraw();
 
         sun = new Sun(this);
         for (int i = 0; i < waves.length; i++)
-            waves[i] = new Wave(this, WATER_LINE, color(red(BG_START_COLOR), green(BG_START_COLOR),
+            waves[i] = new Wave(this, waterLine, color(red(BG_START_COLOR), green(BG_START_COLOR),
                     random(blue(BG_START_COLOR) - 20, blue(BG_START_COLOR) + 70)));
         for (int i = 0; i < STAR_COUNT; i++) {
-            stars[i] = new Star(this, WATER_LINE, color(random(255), random(255), random(255), random(50, 255)));
+            stars[i] = new Star(this, waterLine, color(random(255), random(255), random(255), random(50, 200)));
         }
         for (int i = 0; i < FISH_COUNT; i++) {
-            fishs[i] = new Fish(this, WATER_LINE);
+            fishs[i] = new Fish(this, waterLine);
         }
+        lastTime = millis();
     }
 
     @Override
     public void draw() {
+        deltaTime = (int) (millis() - lastTime);
         image(background, 0, 0);
-        for (Wave wave : waves) wave.display();
-        for (Star star : stars) star.display();
-        for (Fish fish : fishs) fish.display();
+        for (Wave wave : waves) wave.display(deltaTime);
+        for (Star star : stars) star.display(deltaTime);
+        for (Fish fish : fishs) fish.display(deltaTime);
         sun.display();
         text(frameRate, 5, 40);
+        lastTime = millis();
     }
 
     public void gradient(PGraphics g, int x, int y, float w, float h, int color1, int color2, int axis) {

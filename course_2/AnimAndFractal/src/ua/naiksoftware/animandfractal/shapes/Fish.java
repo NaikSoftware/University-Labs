@@ -4,8 +4,7 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import ua.naiksoftware.animandfractal.Sketch;
 
-import static processing.core.PApplet.min;
-import static processing.core.PApplet.println;
+import static processing.core.PApplet.*;
 
 /**
  * Created by naik on 14.10.15.
@@ -14,48 +13,51 @@ public class Fish {
 
     Sketch a;
     PGraphics g;
+    PImage image;
     float x, y, dx, dy;
-    int maxX, waterLine;
-    int bound = 400;
+    int maxX, minY, waterLine;
+    int bound;
 
     public Fish(Sketch a, int waterLine) {
         this.a = a;
         this.waterLine = waterLine;
         int factor = min(a.width, a.height);
-        int width = (int) a.random(factor / 20, factor / 17);
-        String file = "caras" + (int) (a.random(3)) + ".png";
-        println(file);
-        PImage image = a.loadImage(file);
+        int width = (int) a.random(factor / 20, factor / 13);
+        image = a.loadImage("caras" + (int) (a.random(3)) + ".png");
         image.resize(width, (image.height / image.width) * width);
         g = a.createGraphics(image.width, image.height);
-        g.beginDraw();
-        g.image(image, 0, 0);
-        g.endDraw();
+        bound = a.width / 2;
         maxX = a.width + bound;
-        genNew(1);
+        minY = waterLine + factor / 9;
+        toNewPlace();
     }
 
-    void genNew(int direction) {
+    void toNewPlace() {
+        g.beginDraw();
+        g.clear();
+
         float newDirect = a.random(-1, 1);
         if (newDirect > 0) {
             x = a.random(-bound, 0);
-            dx = a.random(1, 3);
+            dx = a.random(0.05f, 0.08f);
+            g.scale(1, 1);
+            g.image(image, 0, 0);
         } else {
             x = a.random(maxX - bound, maxX);
-            dx = a.random(-3, -1);
+            dx = a.random(-0.08f, -0.05f);
+            g.scale(-1, 1);
+            g.image(image, -image.width, 0);
         }
-        y = a.random(waterLine, waterLine + (a.height - waterLine) / 2);
-        dy = a.random(-0.01f, 0.01f);
+        y = a.random(minY, waterLine + (a.height - waterLine) / 2);
+        dy = a.random(-0.002f, 0.002f);
 
-        if (newDirect > 0 && direction < 0 || newDirect < 0 && direction > 0) {
-            g.scale(-1, 1); // flip horizontally
-        }
+        g.endDraw();
     }
 
-    public void display() {
-        if (x > maxX || x < -bound) genNew(1);
-        x += dx;
-        y += dy;
+    public void display(int deltaTime) {
+        if (x > maxX || x < -bound) toNewPlace();
+        x += dx * deltaTime;
+        y += dy * deltaTime;
         a.image(g, x, y);
     }
 }
