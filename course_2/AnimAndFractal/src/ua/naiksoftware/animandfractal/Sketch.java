@@ -17,9 +17,9 @@ public class Sketch extends PApplet {
 
     @Override
     public void settings() {
-        //size(600, 300);
+        //size(600, 300, P3D);
         size(1280, 768, P3D);
-        //fullScreen();
+        fullScreen();
     }
 
     public int X_AXIS = 1, Y_AXIS = 2;
@@ -27,9 +27,9 @@ public class Sketch extends PApplet {
     int BG_START_COLOR = 0xFF7777aa, BG_END_COLOR = 0xFFccffcc;
     int SKY_BEGIN_COLOR = 0xFFddb600, SKY_END_COLOR = 0xFFff4c00;
 
-    int WAVE_COUNT = 10;
+    int WAVE_COUNT = 50;
     int STAR_COUNT = 50;
-    int FISH_COUNT = 10;
+    int FISH_COUNT = 50;
 
     PGraphics background;
     Sun sun;
@@ -67,9 +67,9 @@ public class Sketch extends PApplet {
     public void draw() {
         deltaTime = (int) (millis() - lastTime);
         image(background, 0, 0);
+        for (Fish fish : fishs) fish.display(deltaTime);
         for (Wave wave : waves) wave.display(deltaTime);
         for (Star star : stars) star.display(deltaTime);
-        for (Fish fish : fishs) fish.display(deltaTime);
         sun.display();
         text(frameRate, 5, 40);
         lastTime = millis();

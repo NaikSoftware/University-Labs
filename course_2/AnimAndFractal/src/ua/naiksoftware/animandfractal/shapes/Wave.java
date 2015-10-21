@@ -33,7 +33,7 @@ public class Wave {
         g.translate(0, amplitude);
 
         float x = 0;
-        for (float i = 0; x <= shape_width + 1; i += 0.1) {
+        for (float i = 0; x <= shape_width + 10; i += 0.1) {
             g.vertex(x, sin(i) * amplitude);
             x += step;
         }
