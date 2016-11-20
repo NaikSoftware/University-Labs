@@ -41,13 +41,14 @@ int main()
     cout << "Enter iterations count: ";
     int steps;
     cin >> steps;
-    for (int step = 0; step <= steps; step++) {
+    clean_input_buffer();
+    for (int step = 0; step < steps; step++) {
         for (int i = 0; i < matrix.w; i++) {
             for (int j = 0; j < matrix.h; j++) {
                 matrix.data[i][j] = get_new_state_for_cell(matrix, i, j);
             }
         }
-        print_matrix_data(matrix, step);
+        print_matrix_data(matrix, step + 1);
     }
     matrix.unalloc();
     return 0;
@@ -85,7 +86,7 @@ Matrix retrieve_data() {
         mt19937 generator(time(0));
         uniform_int_distribution<int> distribution_w(0, matrix.w - 1);
         uniform_int_distribution<int> distribution_h(0, matrix.h - 1);
-        uniform_int_distribution<int> distribution_count(0, matrix.w * matrix.h / 3);
+        uniform_int_distribution<int> distribution_count(1, matrix.w * matrix.h / 3);
         int init_points = distribution_count(generator);
         cout << "Run with init points:" << init_points << endl;
         while (init_points > 0) {
@@ -130,7 +131,7 @@ Matrix retrieve_data() {
 
 void print_matrix_data(Matrix &matrix, int step) {
 #ifdef __unix__
-    system("clear");
+//    system("clear");
 #endif
 #ifdef _WIN32
     system("cls");
